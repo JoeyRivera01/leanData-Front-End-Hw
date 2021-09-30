@@ -61,7 +61,7 @@ const App = () => {
         <UsersTable users={users} setUsers={setUsers}/>
       }
       {displaying === 'expenses' &&
-        <ExpenseTable users={users} expensesByCategory={expensesByCategory}/>
+        <ExpenseTable users={users} setUsers={setUsers} expensesByCategory={expensesByCategory}/>
       }
       {displaying === 'companyExpenses' &&
         <CompanyExpensesTable expensesByCategory={expensesByCategory}/>
