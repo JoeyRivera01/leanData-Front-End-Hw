@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { Table } from 'react-bootstrap';
 
 const ExpenseTable = ({users}) => {
+  let entryNum = 1;
 
   return (
     <>
@@ -18,10 +18,10 @@ const ExpenseTable = ({users}) => {
         </thead>
         <tbody>
           { users &&
-            Object.entries(users).map(([userId, user], index) => (
+            Object.entries(users).map(([userId, user]) => (
               user.expenses.map(expense =>
                 <tr key={userId}>
-                  <td>{index + 1}</td>
+                  <td>{entryNum++}</td>
                   <td>{user.firstName + ' ' + user.lastName}</td>
                   <td>{expense.category}</td>
                   <td>{expense.description}</td>
