@@ -1,43 +1,59 @@
-import {useState} from 'react'
+import {useState} from 'react';
+import UsersTable from './components/UsersTable.js';
+import ExpenseTable from './components/ExpenseTable.js';
+import CompanyExpensesTable from './components/CompanyExpensesTable.js'
 import './App.css';
 
 const App = () => {
-  // use a userid for quick user lookup when deleting
-  const [users, setUsers] = useState([
-    {
+  const [nextUserId, setNextUserId] = useState(4);
+  const [categories, setCategories] = useState(['Food', 'Travel', 'Supplies', 'Health']);
+  const [expensesByCategory, setExpensesByCategory] = useState({
+    'Food': 1100,
+    'Travel': 50,
+    'Supplies': 200,
+    'Health': 2000
+  });
+
+  // users list is an object and the userid is the key, to ensure user lookup and delete methods are O(1).
+  const [users, setUsers] = useState({
+    1: {
       firstName: 'Joey',
       lastName: 'Rivera',
-      personalExpenses: [
-        {category: 'rent', price: 1000},
-        {category: 'gas', price: 50}
+      expenses: [
+        {category: 'Food', description: 'Client lunch at The French Laundry.', cost: 1000},
+        {category: 'Travel', description: 'Filled up rental car with gas.', cost: 50},
+        {category: 'Supplies', description: 'Purchased 3 macbooks for engineering.', cost: 4000},
       ],
-      companyExpenses: [
-        {category: 'business trip', price: 4000},
-        {category: 'client meal', price: 80}
-      ],
-      totalPersonalExpenses: 1050,
-      totalCompanyExpenses: 4080,
-      totalExpenses: this.totalPersonalExpenses + this.totalCompanyExpenses
+      totalExpenses: 5050
     },
-    {
-      firstName: 'Alexandra',
+    2: {
+      firstName: 'Alex',
       lastName: 'Rivera',
-      personalExpenses: [
-        {category: 'rent', price: 1500},
-        {category: 'personal meal', price: 0}
+      expenses: [
+        {category: 'Health', description: 'Renewed the company gym membership.', cost: 2000},
+        {category: 'Travel', description: 'Filled up rental car with gas.', cost: 50},
+        {category: 'Food', description: 'New hire welcome lunch.', cost: 100},
       ],
-      companyExpenses: [
-        {category: 'business trip', price: 4000},
-        {category: 'client meal', price: 80}
-      ],
-      totalExpenses: 0
+      totalExpenses: 2150
     },
-
-  ])
+    3: {
+      firstName: 'Oliver',
+      lastName: 'Rivera',
+      expenses: [
+        {category: 'Travel', description: 'Purchased a toddler stroller.', cost: 100},
+        {category: 'Supplies', description: 'Purchased crayons for schoolwork.', cost: 20},
+        {category: 'Supplies', description: 'Purchased tracing paper.', cost: 5},
+      ],
+      totalExpenses: 125
+    }
+  });
 
   return (
     <div className="App">
-
+      <h1>LeanData Front End Assignment</h1>
+      <UsersTable users={users} nextUserId={nextUserId}/>
+      <ExpenseTable users={users} categories={categories}/>
+      <CompanyExpensesTable expensesByCategory={expensesByCategory}/>
     </div>
   );
 }
