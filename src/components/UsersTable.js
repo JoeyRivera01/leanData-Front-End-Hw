@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Table, Form, Row, Col, Button } from 'react-bootstrap';
 
 const UsersTable = ({users, setUsers}) => {
   const [nextUserId, setNextUserId] = useState(4);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [editingCell, setEditingCell] = useState(0);
 
   const handleAddUser = (e) => {
     e.preventDefault();
@@ -15,7 +17,8 @@ const UsersTable = ({users, setUsers}) => {
       totalExpenses: 0
     }});
     setNextUserId(prevState => prevState + 1);
-    console.log(nextUserId);
+    setFirstName('');
+    setLastName('');
   }
 
   const handleFirstNameInput = (e) => {
@@ -24,6 +27,29 @@ const UsersTable = ({users, setUsers}) => {
 
   const handleLastNameInput = (e) => {
     setLastName(e.target.value);
+  }
+
+  const handleEdit = (e) => {
+    setEditMode(true);
+    setEditingCell(e.target.id);
+  }
+
+  const handleSave = (e) => {
+    let newUserSet = {...users};
+    newUserSet[editingCell].firstName = firstName;
+    newUserSet[editingCell].lastName = lastName;
+    setUsers(newUserSet);
+    setFirstName('');
+    setLastName('');
+    setEditMode(false);
+    setEditingCell(0);
+  }
+
+  const handleDelete = (e) => {
+    let id = e.target.id;
+    let newUserSet = {...users};
+    delete newUserSet[id];
+    setUsers(newUserSet);
   }
 
   return (
@@ -36,6 +62,7 @@ const UsersTable = ({users, setUsers}) => {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Total Expenses</th>
+            <th>Options</th>
           </tr>
         </thead>
         <tbody>
@@ -43,9 +70,36 @@ const UsersTable = ({users, setUsers}) => {
             Object.entries(users).map(([userId, user], index) =>
               <tr key={userId}>
                 <td>{index + 1}</td>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <td>
+                  {editMode && userId === editingCell ?
+                    <input type='text' value={firstName} onChange={handleFirstNameInput} id={userId}></input>
+                    : user.firstName
+                  }
+                </td>
+                <td>
+                  {editMode && userId === editingCell ?
+                    <input type='text' value={lastName} onChange={handleLastNameInput} id={userId}></input>
+                    : user.lastName
+                  }
+                </td>
                 <td>{'$' + user.totalExpenses}</td>
+                <td>
+                  <Button
+                    variant='success'
+                    className='edit-btn'
+                    id={userId}
+                    onClick={editMode ? handleSave : handleEdit}>
+                    {editMode ? 'Save' :'Edit'}
+                  </Button>
+                  <Button
+                    variant='danger'
+                    className='delete-btn'
+                    id={userId}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                </td>
               </tr>
             )}
         </tbody>
@@ -58,6 +112,7 @@ const UsersTable = ({users, setUsers}) => {
               <Form.Control
                 required
                 type="text"
+                value={firstName}
                 placeholder="John"
                 onChange={handleFirstNameInput}
               />
@@ -69,6 +124,7 @@ const UsersTable = ({users, setUsers}) => {
             <Form.Control
               required
               type="text"
+              value={lastName}
               placeholder="Smith"
               onChange={handleLastNameInput}
             />

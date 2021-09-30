@@ -5,6 +5,7 @@ import CompanyExpensesTable from './components/CompanyExpensesTable.js'
 import './App.css';
 
 const App = () => {
+  const [displaying, setDisplaying] = useState('users');
   const [expensesByCategory, setExpensesByCategory] = useState({
     'Food': 1100,
     'Travel': 50,
@@ -47,8 +48,8 @@ const App = () => {
   });
 
   return (
-    <div className="App">
-      <h1>LeanData Front End Assignment</h1>
+    <div className='App'>
+      <h1 className='page-title'>LeanData Front End Assignment</h1>
       <UsersTable users={users} setUsers={setUsers}/>
       <ExpenseTable users={users} expensesByCategory={expensesByCategory}/>
       <CompanyExpensesTable expensesByCategory={expensesByCategory}/>

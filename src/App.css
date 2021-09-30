@@ -14,6 +14,15 @@
   color: #61dafb;
 }
 
+.page-title {
+  margin: 2vh;
+}
+
+.edit-btn,
+.delete-btn {
+  margin: 0 0.5vw 0 0.5vw;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
