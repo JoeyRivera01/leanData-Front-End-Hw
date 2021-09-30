@@ -19,7 +19,7 @@ const CompanyExpensesTable = ({expensesByCategory}) => {
               <tr key={index * Math.floor(Math.random() * 100000) + 1}>
                 <td>{index + 1}</td>
                 <td>{category}</td>
-                <td>{totalExpense}</td>
+                <td>{'$' + totalExpense}</td>
               </tr>
             )}
         </tbody>

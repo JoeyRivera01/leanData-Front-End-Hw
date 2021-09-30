@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Table } from 'react-bootstrap';
 
-const ExpenseTable = ({users}) => {
+const ExpenseTable = ({users, expensesByCategory}) => {
+  const [categories, setCategories] = useState(['Food', 'Travel', 'Supplies', 'Health']);
   let entryNum = 1;
 
   return (
@@ -20,12 +22,12 @@ const ExpenseTable = ({users}) => {
           { users &&
             Object.entries(users).map(([userId, user]) => (
               user.expenses.map(expense =>
-                <tr key={userId}>
+                <tr key={userId * Math.floor(Math.random() * 100000) + 1} className={userId}>
                   <td>{entryNum++}</td>
                   <td>{user.firstName + ' ' + user.lastName}</td>
                   <td>{expense.category}</td>
                   <td>{expense.description}</td>
-                  <td>{expense.cost}</td>
+                  <td>{'$' + expense.cost}</td>
                 </tr>
               ))
             )}
