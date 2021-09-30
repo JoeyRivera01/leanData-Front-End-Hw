@@ -1,7 +1,8 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import UsersTable from './components/UsersTable.js';
 import ExpenseTable from './components/ExpenseTable.js';
 import CompanyExpensesTable from './components/CompanyExpensesTable.js'
+import { Navbar, Button, Container } from 'react-bootstrap'
 import './App.css';
 
 const App = () => {
@@ -49,10 +50,22 @@ const App = () => {
 
   return (
     <div className='App'>
+      <Navbar bg="dark" variant="dark" style={{width:'100vw'}} className='navbar fixed-top'>
+          <Navbar.Brand>Tables</Navbar.Brand>
+          <Button variant='dark' onClick={() => setDisplaying('users')}>Users</Button>
+          <Button variant='dark' onClick={() => setDisplaying('expenses')}>Expenses</Button>
+          <Button variant='dark' onClick={() => setDisplaying('companyExpenses')}>Company Expenses</Button>
+      </Navbar>
       <h1 className='page-title'>LeanData Front End Assignment</h1>
-      <UsersTable users={users} setUsers={setUsers}/>
-      <ExpenseTable users={users} expensesByCategory={expensesByCategory}/>
-      <CompanyExpensesTable expensesByCategory={expensesByCategory}/>
+      { displaying === 'users' &&
+        <UsersTable users={users} setUsers={setUsers}/>
+      }
+      {displaying === 'expenses' &&
+        <ExpenseTable users={users} expensesByCategory={expensesByCategory}/>
+      }
+      {displaying === 'companyExpenses' &&
+        <CompanyExpensesTable expensesByCategory={expensesByCategory}/>
+      }
     </div>
   );
 }
